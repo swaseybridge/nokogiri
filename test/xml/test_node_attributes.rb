@@ -61,6 +61,16 @@ describe Nokogiri::XML::Node do
       end
     end
 
+    describe "#set_attribute" do
+      it "round trips" do
+        doc = Nokogiri.XML(simple_xml_with_namespaces)
+        node = doc.at_css("node")
+        node["xxx"] = "yyy"
+        refute_nil(node.attribute("xxx"))
+        assert_equal("yyy", node.attribute("xxx").value)
+      end
+    end
+
     it "prefixed_attributes" do
       doc = Nokogiri.XML("<root xml:lang='en-GB' />")
       node = doc.root
